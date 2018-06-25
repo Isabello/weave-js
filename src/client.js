@@ -187,6 +187,15 @@ export class Client {
         return {height, parsed};
     }
 
+    // queryParse takes a protobuf `model` to decode the raw bytes,
+    // and an optional keyMap function that creates an object with one element
+    // from the key. If no keyMap given, then key is returned unmodified under _key
+    async parseSubscribedTx(data, model) {
+          var tx = pbToObj(model, Buffer.from(data.tx, 'base64'));
+
+          return { height: data.height, parsed: tx };
+    }
+
     // queryParseOne calls query parse and returns the first element of
     // the parsed set, or null if no set.
     async queryParseOne(data, path, model, keyMap) {
