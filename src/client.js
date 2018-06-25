@@ -192,6 +192,10 @@ export class Client {
     // from the key. If no keyMap given, then key is returned unmodified under _key
     async parseSubscribedTx(data, model) {
           var tx = pbToObj(model, Buffer.from(data.tx, 'base64'));
+          tx.sendMsg.src = Buffer.from(tx.sendMsg.src, 'base64').toString('hex');
+          tx.sendMsg.dest = Buffer.from(tx.sendMsg.dest, 'base64').toString('hex');
+          tx.signatures[0].pubKey.ed25519 = Buffer.from(tx.signatures[0].pubKey.ed25519, 'base64').toString('hex');
+          tx.signatures[0].signature.ed25519  = Buffer.from(tx.signatures[0].signature.ed25519, 'base64').toString('hex');
 
           return { height: data.height, parsed: tx };
     }
